@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/shell-script/shell-script.iml" filepath="$PROJECT_DIR$/shell-script/shell-script.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/shellscript.iml" filepath="$PROJECT_DIR$/.idea/shellscript.iml" />
     </modules>
   </component>
