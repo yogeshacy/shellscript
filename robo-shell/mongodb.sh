@@ -1,17 +1,26 @@
 #!/usr/bin/env bash
 
-curl -s -o /etc/yum.repos.d/mongodb.repo https://raw.githubusercontent.com/roboshop-devops-project/mongodb/main/mongo.repo
+source common.sh
+COMPONENT=mongodb
 
-yum install -y mongodb-org
-systemctl enable mongod
-systemctl start mongod
+echo setup yum repo
+curl -s -o /etc/yum.repos.d/mongodb.repo https://raw.githubusercontent.com/roboshop-devops-project/mongodb/main/mongo.repo &>>${LOG}
+StatusCheck
 
-systemctl restart mongod
-curl -s -L -o /tmp/mongodb.zip "https://github.com/roboshop-devops-project/mongodb/archive/main.zip"
+echo Install MongoDB
+yum install -y mongodb-org &>>${LOG}
+StatusCheck
 
-cd /tmp
-unzip mongodb.zip
-cd mongodb-main
-mongo < catalogue.js
-mongo < users.js
+echo start MongoDB servie
+systemctl enable mongod &>>${LOG} && systemctl start mongod &>>${LOG}
+StatusCheck
 
+DOWNLOADING
+
+echo Extracting schema file
+cd /tmp &>>${LOG} && unzip -o mongodb.zip &>>${LOG}
+StatusCheck
+
+echo Load Schema
+cd mongodb-main &>>${LOG} && mongo < catalogue.js &>>${LOG} && mongo < users.js &>>${LOG}
+StatusCheck
